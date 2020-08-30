@@ -1,0 +1,22 @@
+UNITS LENGTH=A TIME=fs ENERGY=kcal/mol
+
+INCLUDE FILE=dloop_tbc_cv_backbonecv_aligninner_v1.txt
+WHOLEMOLECULES ENTITY0=bbcb
+
+COM ATOMS=dl1 LABEL=dl1com
+COM ATOMS=dl2 LABEL=dl2com
+COM ATOMS=tbc1 LABEL=tbc1com
+COM ATOMS=tbc2 LABEL=tbc2com
+
+DISTANCE ATOMS=dl1com,tbc1com LABEL=dist1
+DISTANCE ATOMS=dl2com,tbc2com LABEL=dist2
+
+MOVINGRESTRAINT ...
+  ARG=dist1,dist2
+  STEP0=0    AT0=24.6,27.2 KAPPA0=50.0,50.0
+#10ns
+  STEP1=5000000 AT1=17,17 KAPPA1=50.0,50.0
+  LABEL=r
+... MOVINGRESTRAINT
+
+PRINT ARG=dist1,dist2,r.bias,r.force2 STRIDE=500 FILE=prod_gromacs_angular_aligninner_pull/cofilactin_partial_18mer_10cofa_barbed_aligninner_ionized_pulleq.run.20000000.colvars.dat FMT=%8.4f
